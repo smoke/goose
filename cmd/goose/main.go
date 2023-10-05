@@ -16,6 +16,7 @@ import (
 	"text/tabwriter"
 	"text/template"
 
+	"github.com/joho/godotenv"
 	"github.com/pressly/goose/v3"
 	"github.com/pressly/goose/v3/internal/cfg"
 	"github.com/pressly/goose/v3/internal/migrationstats"
@@ -36,6 +37,7 @@ var (
 	sslkey       = flags.String("ssl-key", "", "file path to SSL key in pem format (only support on mysql)")
 	noVersioning = flags.Bool("no-versioning", false, "apply migration commands with no versioning, in file order, from directory pointed to")
 	noColor      = flags.Bool("no-color", false, "disable color output (NO_COLOR env variable supported)")
+	envFile      = flags.String("env-file", ".env", "file path to a file of environment variables")
 )
 
 var version string
@@ -74,6 +76,9 @@ func main() {
 		flags.Usage()
 		os.Exit(1)
 	}
+
+	// read the `.env` or whichever file is pointed, skipping any error
+	godotenv.Load(*envFile)
 
 	// The -dir option has not been set, check whether the env variable is set
 	// before defaulting to ".".
