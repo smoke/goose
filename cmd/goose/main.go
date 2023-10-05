@@ -16,6 +16,7 @@ import (
 	"text/tabwriter"
 	"text/template"
 
+	"github.com/joho/godotenv"
 	"github.com/pressly/goose/v3"
 	"github.com/pressly/goose/v3/internal/cfg"
 	"github.com/pressly/goose/v3/internal/migrationstats"
@@ -73,6 +74,12 @@ func main() {
 	if len(args) == 0 {
 		flags.Usage()
 		os.Exit(1)
+	}
+
+	// read the .env
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("goose: failed to load .env file")
 	}
 
 	// The -dir option has not been set, check whether the env variable is set
