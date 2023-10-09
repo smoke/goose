@@ -7,6 +7,13 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [v3.16.0-envsubst.2] - 2023-10-10
+
+Pre-release including:
+
+- feat: read pointed file of environment variables using `github.com/joho/godotenv` https://github.com/pressly/goose/pull/603
+- feat: environment variables interpolation using `github.com/drone/envsubst` https://github.com/pressly/goose/pull/604
+
 ## [v3.16.0-envsubst.1] - 2023-10-06
 
 Pre-release including
