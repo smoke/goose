@@ -26,7 +26,7 @@ import (
 var (
 	flags        = flag.NewFlagSet("goose", flag.ExitOnError)
 	dir          = flags.String("dir", cfg.DefaultMigrationDir, "directory with migration files")
-	table        = flags.String("table", "goose_db_version", "migrations table name")
+	table        = flags.String("table", cfg.DefaultMigrationTable, "migrations table name")
 	verbose      = flags.Bool("v", false, "enable verbose mode")
 	help         = flags.Bool("h", false, "print help")
 	versionFlag  = flags.Bool("version", false, "print version")
@@ -63,6 +63,16 @@ func main() {
 	if *sequential {
 		goose.SetSequential(true)
 	}
+
+	// read the `.env` or whichever file is pointed, skipping any error
+	godotenv.Load(*envFile)
+
+	// load the cfg from the environment variables
+	cfg.Load()
+
+	if *table == cfg.DefaultMigrationTable || *table == "" {
+		*table = cfg.GOOSEMIGRATIONTABLE
+	}
 	goose.SetTableName(*table)
 
 	args := flags.Args()
@@ -76,12 +86,6 @@ func main() {
 		flags.Usage()
 		os.Exit(1)
 	}
-
-	// read the `.env` or whichever file is pointed, skipping any error
-	godotenv.Load(*envFile)
-
-	// load the cfg from the environment variables
-	cfg.Load()
 
 	// The -dir option has not been set, check whether the env variable is set
 	// before defaulting to ".".
