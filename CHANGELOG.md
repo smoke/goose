@@ -7,6 +7,8 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [v3.18.0-envsub-and-dotenv.1] - 2023-12-26
+
 - Add environment variable substitution for SQL migrations. (#604)
 
   - This feature is **disabled by default**, and can be enabled by adding an annotation to the
@@ -26,6 +28,8 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
     -- +goose Up
     SELECT * FROM regions WHERE name = '${REGION}';
     ```
+- feat: read pointed file of environment variables using `github.com/joho/godotenv` https://github.com/pressly/goose/pull/603
+- feat: introduce GOOSE_MIGRATION_TABLE env variable overiden by `-table` arg https://github.com/pressly/goose/pull/610
 
 ## [v3.17.0] - 2023-12-15
 
